@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>for my husband's birthday</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --cream: #fdf6ee;
+    --blush: #f4c5c0;
+    --rose:  #d4697a;
+    --wine:  #7a2535;
+    --warm:  #e8967a;
+    --dark:  #2b1a1e;
+    --gold:  #c9954a;
+  }
+  body {
+    background: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    color: var(--dark);
+    overflow-x: hidden;
+  }
+  .petal {
+    position: fixed;
+    top: -40px;
+    font-size: 1.2rem;
+    animation: fall linear infinite;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0;
+  }
+  @keyframes fall {
+    0%   { transform: translateY(0) rotate(0deg);   opacity: 0.8; }
+    100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+  }
+  #lockScreen {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: var(--wine);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    cursor: pointer;
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  #lockScreen.unlocked {
+    opacity: 0;
+    transform: scale(1.05);
+    pointer-events: none;
+  }
+  .lock-hint {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: rgba(253,246,238,0.4);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  .lock-name {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3.5rem, 12vw, 8rem);
+    font-style: italic;
+    color: var(--cream);
+    line-height: 1;
+    text-align: center;
+  }
+  .lock-sub {
+    font-size: 0.9rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--blush);
+    opacity: 0.7;
+  }
+  .tap-circle {
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    border: 2px solid rgba(253,246,238,0.3);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2rem;
+    color: var(--cream);
+    animation: breathe 2s ease-in-out infinite;
+  }
+  @keyframes breathe {
+    0%, 100% { transform: scale(1); border-color: rgba(253,246,238,0.3); }
+    50%       { transform: scale(1.1); border-color: rgba(253,246,238,0.7); }
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 0.4; }
+    50%       { opacity: 0.9; }
+  }
+  main { position: relative; z-index: 1; }
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 4rem 2rem;
+    position: relative;
+    background:
+      radial-gradient(ellipse at 20% 50%, rgba(244,197,192,0.4) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 20%, rgba(232,150,122,0.2) 0%, transparent 50%),
+      var(--cream);
+  }
+  .hero-eyebrow {
+    font-size: 0.75rem;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--rose);
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: slideUp 0.8s ease 0.3s forwards;
+  }
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 10vw, 9rem);
+    font-weight: 700;
+    line-height: 1;
+    color: var(--dark);
+    opacity: 0;
+    animation: slideUp 0.8s ease 0.5s forwards;
+  }
+  .hero-title em {
+    display: block;
+    font-style: italic;
+    color: var(--rose);
+  }
+  .hero-msg {
+    margin-top: 2rem;
+    font-size: clamp(1rem, 2.5vw, 1.3rem);
+    font-weight: 300;
+    color: rgba(43,26,30,0.65);
+    max-width: 44ch;
+    line-height: 1.8;
+    opacity: 0;
+    animation: slideUp 0.8s ease 0.7s forwards;
+  }
+  .hero-date {
+    margin-top: 3rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.8rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--blush);
+    opacity: 0;
+    animation: slideUp 0.8s ease 0.9s forwards;
+  }
+  .hero-date::before, .hero-date::after {
+    content: ''; display: block;
+    width: 40px; height: 1px;
+    background: var(--gold); opacity: 0.5;
+  }
+  .float-heart {
+    position: absolute;
+    font-size: 1.5rem;
+    opacity: 0.12;
+    animation: floatHeart 6s ease-in-out infinite;
+  }
+  @keyframes floatHeart {
+    0%, 100% { transform: translateY(0) rotate(-10deg); }
+    50%       { transform: translateY(-20px) rotate(10deg); }
+  }
+  .music-section {
+    padding: 6rem 2rem;
+    background:
+      radial-gradient(ellipse at 70% 80%, rgba(244,197,192,0.25) 0%, transparent 60%),
+      var(--cream);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .section-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--rose);
+    margin-bottom: 1rem;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 4rem);
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 1rem;
+  }
+  .section-title em { font-style: italic; color: var(--rose); }
+  .section-sub {
+    font-size: 1rem;
+    font-weight: 300;
+    color: rgba(43,26,30,0.55);
+    margin-bottom: 3.5rem;
+  }
+  .player-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2.5rem;
+    max-width: 540px;
+    margin: 0 auto;
+  }
+  .vinyl-stage {
+    position: relative;
+    width: 220px;
+    height: 220px;
+  }
+  .vinyl {
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    background:
+      repeating-radial-gradient(circle at center,
+        #1a0a0d 0px, #1a0a0d 4px,
+        #2b1419 5px, #2b1419 6px,
+        #1a0a0d 7px, #1a0a0d 10px
+      ),
+      radial-gradient(circle at center, #7a2535 0%, #2b1419 60%);
+    box-shadow:
+      0 0 0 3px #3a1a20,
+      0 20px 60px rgba(43,26,30,0.35),
+      0 4px 15px rgba(212,105,122,0.2);
+    animation: spin 3s linear infinite paused;
+    transition: filter 0.3s ease;
+  }
+  .vinyl.playing {
+    animation-play-state: running;
+    filter: drop-shadow(0 0 18px rgba(212,105,122,0.5));
+  }
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+  .vinyl-center {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--blush) 0%, var(--rose) 60%, var(--wine) 100%);
+    border: 3px solid rgba(253,246,238,0.2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.55rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(253,246,238,0.6);
+    font-family: 'DM Sans', sans-serif;
+    pointer-events: none;
+    z-index: 2;
+  }
+  .vinyl-needle {
+    position: absolute;
+    top: -10px;
+    right: 18px;
+    width: 6px;
+    height: 70px;
+    background: linear-gradient(to bottom, var(--gold), #8a6830);
+    border-radius: 3px 3px 1px 1px;
+    transform-origin: top center;
+    transform: rotate(28deg);
+    z-index: 3;
+    transition: transform 0.5s ease;
+  }
+  .vinyl-needle.playing { transform: rotate(15deg); }
+  .vinyl-needle::after {
+    content: '';
+    position: absolute;
+    bottom: -4px; left: 50%;
+    transform: translateX(-50%);
+    width: 10px; height: 10px;
+    background: var(--gold);
+    border-radius: 50%;
+  }
+  .play-btn {
+    width: 70px; height: 70px;
+    border-radius: 50%;
+    background: var(--wine);
+    border: none;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.6rem;
+    color: var(--cream);
+    box-shadow: 0 8px 30px rgba(122,37,53,0.45);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+    flex-shrink: 0;
+  }
+  .play-btn:hover {
+    transform: scale(1.08);
+    box-shadow: 0 12px 40px rgba(122,37,53,0.6);
+    background: var(--rose);
+  }
+  .song-info {
+    text-align: center;
+  }
+  .song-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-style: italic;
+    color: var(--dark);
+    margin-bottom: 0.3rem;
+  }
+  .song-artist {
+    font-size: 0.85rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(43,26,30,0.45);
+  }
+  .waveform {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    height: 36px;
+    margin: 0.5rem 0;
+  }
+  .bar {
+    width: 4px;
+    border-radius: 2px;
+    background: var(--rose);
+    opacity: 0.4;
+    animation: wave 0.8s ease-in-out infinite alternate paused;
+  }
+  .bar.active { opacity: 1; animation-play-state: running; }
+  .bar:nth-child(1)  { height: 14px; animation-delay: 0s;    }
+  .bar:nth-child(2)  { height: 22px; animation-delay: 0.1s;  }
+  .bar:nth-child(3)  { height: 30px; animation-delay: 0.2s;  }
+  .bar:nth-child(4)  { height: 18px; animation-delay: 0.15s; }
+  .bar:nth-child(5)  { height: 26px; animation-delay: 0.05s; }
+  .bar:nth-child(6)  { height: 34px; animation-delay: 0.25s; }
+  .bar:nth-child(7)  { height: 20px; animation-delay: 0.1s;  }
+  .bar:nth-child(8)  { height: 28px; animation-delay: 0.3s;  }
+  .bar:nth-child(9)  { height: 16px; animation-delay: 0.08s; }
+  .bar:nth-child(10) { height: 24px; animation-delay: 0.18s; }
+  @keyframes wave {
+    from { transform: scaleY(0.4); }
+    to   { transform: scaleY(1.1); }
+  }
+  .playlist-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    margin-top: 1rem;
+    padding: 0.85rem 2rem;
+    border-radius: 50px;
+    background: transparent;
+    border: 1.5px solid rgba(212,105,122,0.4);
+    color: var(--rose);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease, transform 0.2s ease;
+  }
+  .playlist-btn:hover {
+    background: var(--rose);
+    border-color: var(--rose);
+    color: var(--cream);
+    transform: translateY(-2px);
+  }
+  .playlist-btn .btn-icon { font-size: 1.1rem; }
+  .note-section {
+    padding: 6rem 2rem;
+    display: flex;
+    justify-content: center;
+    background: var(--wine);
+    position: relative;
+    overflow: hidden;
+  }
+  .note-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 30% 50%, rgba(232,150,122,0.15) 0%, transparent 60%);
+  }
+  .note-card {
+    position: relative;
+    background: rgba(253,246,238,0.06);
+    border: 1px solid rgba(253,246,238,0.15);
+    border-radius: 20px;
+    padding: 3.5rem;
+    max-width: 620px;
+    width: 100%;
+    text-align: center;
+  }
+  .note-icon { font-size: 2.5rem; margin-bottom: 1.5rem; }
+  .note-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-style: italic;
+    color: var(--cream);
+    margin-bottom: 1.5rem;
+  }
+  .note-body {
+    font-size: 1.1rem;
+    line-height: 1.85;
+    color: rgba(253,246,238,0.75);
+    font-weight: 300;
+  }
+  .note-body strong { color: var(--blush); font-weight: 500; }
+  .note-sig {
+    margin-top: 2rem;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.3rem;
+    color: var(--blush);
+  }
+  .secret-btn {
+    margin-top: 2rem;
+    background: transparent;
+    border: 1.5px solid rgba(244,197,192,0.4);
+    color: var(--blush);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 0.85rem 2rem;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+  }
+  .secret-btn:hover {
+    background: rgba(244,197,192,0.1);
+    border-color: var(--blush);
+  }
+  .secret-msg {
+    display: none;
+    margin-top: 1.5rem;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.6rem;
+    color: var(--blush);
+    opacity: 0;
+    transition: opacity 1s ease;
+  }
+  footer {
+    padding: 3rem 2rem;
+    text-align: center;
+    background: var(--wine);
+    border-top: 1px solid rgba(253,246,238,0.08);
+  }
+  footer p {
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(253,246,238,0.25);
+  }
+  footer .heart { color: var(--blush); }
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  #bgAudio { display: none; }
+</style>
+</head>
+<body>
+<audio id="bgAudio" loop>
+  <source src="love.mp3" type="audio/mpeg" id="audioSource">
+</audio>
+<div id="petals"></div>
+<div id="lockScreen" onclick="unlock()">
+  <p class="lock-hint">a surprise is waiting for u</p>
+  <h1 class="lock-name">my love</h1>
+  <p class="lock-sub">open ur gift</p>
+  <div class="tap-circle">🤍</div>
+</div>
+<main id="mainContent" style="display:none;">
+  <section class="hero">
+    <span class="float-heart" style="top:15%;left:8%;animation-delay:0s;">🤍</span>
+    <span class="float-heart" style="top:25%;right:10%;animation-delay:1.5s;">🤍</span>
+    <span class="float-heart" style="bottom:20%;left:12%;animation-delay:3s;">🤍</span>
+    <span class="float-heart" style="bottom:30%;right:8%;animation-delay:2s;">🤍</span>
+    <p class="hero-eyebrow">for ur 20th birthday</p>
+    <h1 class="hero-title">
+      happy<br>
+      <em>birthday</em>elias
+    </h1>
+    <p class="hero-msg">
+      i want u to know how much happiness and love u've brought into my life and how thankful i am to have u as my future husband i hope u like this little gift🤍
+    </p>
+  </section>
+  <section class="music-section">
+    <p class="section-label reveal">and because u deserve ur own music</p>
+    <h2 class="section-title reveal">here is a <em>song</em> to welcome u🤍</h2>
+    <div class="player-wrapper reveal">
+      <div class="vinyl-stage">
+        <div class="vinyl" id="vinyl"></div>
+        <div class="vinyl-center">♪</div>
+        <div class="vinyl-needle" id="needle"></div>
+      </div>
+      <div class="song-info">
+        <div class="song-title" id="songTitle">love by lana del rey</div>
+        <div class="waveform" id="waveform" style="justify-content:center;">
+          <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+          <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+          <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+          <div class="bar"></div>
+        </div>
+      </div>
+      <button class="play-btn" id="playBtn" onclick="togglePlay()" title="play / pause">▶</button>
+      <p style="font-size:0.95rem; color:grey; font-weight:300; text-align:center; max-width:36ch; line-height:1.7; margin: 0 auto;">
+        i made a playlist for all the songs that remind me of u because i couldn't say it better than these songs already do
+      </p>
+      <a class="playlist-btn" href="https://open.spotify.com/playlist/1p61GYlPx4XwzHTAOFYmmC?si=f4b14ffac291475a" target="_blank" id="playlistLink">
+        <span class="btn-icon"></span>
+        open ur playlist
+      </a>
+    </div>
+  </section>
+  <section class="note-section">
+    <div class="note-card reveal">
+      <div class="note-icon">🤍</div>
+      <h3 class="note-title">a note from my heart</h3>
+      <p class="note-body">
+        <strong>to my world :</strong><br><br>
+        happy birthday my love
+        today is about celebrating the day the most beautiful person came into my life and changed everything for me i wish u could truly see urself through my eyes so u could understand how deeply i love u and how much u mean the world to me<br><br>
+        before u things were different and then u came and made everything better in ways i never thought possible u are the reason my life feels lighter and full of happiness u brought me comfort and u never let me feel alone even during my stressful days when i felt stressed u were there supporting me encouraging me and believing in me<br><br>
+        i'm so lucky to have u in my life and i thank god everyday for bringing u to me u are not just my husband u are my safe place my happiness and my future i can't wait to spend the rest of my life by ur side living a life full of love and memories<br/><br/>
+        i see how hard u work on urself and how stressful some days might be but i promise u to be by ur side and to support u in all the things u do and all the decisions u take and i want u to know how proud u make me feel to have a great man like u<br><br>
+        i love the way u care for me and the way u understand me without me having to say anything and the way u make me feel like i'm the most important person in the world u changed my life in the most beautiful way and i will always be grateful for u i promise to be here for u the same way u stood by me and to love u and to always remind u how special u are to me u deserve all the happiness in this world and even more and i will do all i can to make u as happy as u make me sweetheart<br><br>
+        and again happy birthday my love i wish u a year full of love and happiness and i hope that pretty smile that i appreciate more than anything never leave ur beautiful face
+      </p>
+      <p class="note-sig">i love u so so so much🤍</p>
+      <button class="secret-btn" id="secretBtn" onclick="revealSecret()">a little secret for u</u></button>
+      <p class="secret-msg" id="secretMsg">being loved by u feels like something i don’t want to lose ever</p>
+    </div>
+  </section>
+  <footer>
+    <div class="hero-date">a page made with all my love for u honey</div>
+  </footer>
+</main>
+<script>
+  const petalsContainer = document.getElementById('petals');
+  const petalChars = ['🤍','🤍','🤍','🤍','🤍','🤍'];
+  for (let i = 0; i < 18; i++) {
+    const p = document.createElement('div');
+    p.className = 'petal';
+    p.textContent = petalChars[Math.floor(Math.random() * petalChars.length)];
+    p.style.left = Math.random() * 100 + 'vw';
+    p.style.animationDuration = (6 + Math.random() * 8) + 's';
+    p.style.animationDelay = (Math.random() * 10) + 's';
+    p.style.fontSize = (0.8 + Math.random() * 1.2) + 'rem';
+    petalsContainer.appendChild(p);
+  }
+  function unlock() {
+    const lock = document.getElementById('lockScreen');
+    const main = document.getElementById('mainContent');
+    lock.classList.add('unlocked');
+    setTimeout(() => {
+      lock.style.display = 'none';
+      main.style.display = 'block';
+      setTimeout(() => {
+        observeReveal();
+        autoplayAudio();
+      }, 100);
+    }, 800);
+  }
+  const audio   = document.getElementById('bgAudio');
+  const vinyl   = document.getElementById('vinyl');
+  const needle  = document.getElementById('needle');
+  const playBtn = document.getElementById('playBtn');
+  const bars    = document.querySelectorAll('.bar');
+  let isPlaying = false;
+  function setPlayingState(playing) {
+    isPlaying = playing;
+    if (playing) {
+      vinyl.classList.add('playing');
+      needle.classList.add('playing');
+      bars.forEach(b => b.classList.add('active'));
+      playBtn.textContent = '⏸';
+    } else {
+      vinyl.classList.remove('playing');
+      needle.classList.remove('playing');
+      bars.forEach(b => b.classList.remove('active'));
+      playBtn.textContent = '▶';
+    }
+  }
+  function autoplayAudio() {
+    if (!audio.querySelector('source').src || audio.querySelector('source').src === window.location.href) return;
+    audio.play().then(() => setPlayingState(true)).catch(() => {});
+  }
+  function togglePlay() {
+    if (isPlaying) {
+      audio.pause();
+      setPlayingState(false);
+    } else {
+      audio.play().then(() => setPlayingState(true)).catch(() => {});
+    }
+  }
+  function revealSecret() {
+    const msg = document.getElementById('secretMsg');
+    const btn = document.getElementById('secretBtn');
+    btn.style.display = 'none';
+    msg.style.display = 'block';
+    setTimeout(() => { msg.style.opacity = '1'; }, 50);
+  }
+  function observeReveal() {
+    const els = document.querySelectorAll('.reveal');
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          obs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    els.forEach(el => obs.observe(el));
+  }
+</script>
+</body>
+</html>
+ 
